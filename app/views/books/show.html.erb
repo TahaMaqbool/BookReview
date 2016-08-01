@@ -1,0 +1,37 @@
+<div class="row">
+
+  <div class="col-md-4">
+
+    <%= image_tag @b.book_img.url(:book_show), class: "book-show" %>
+
+  </div>
+
+  <div class="col-md-8">
+    <h2><%= @b.title %></h2>
+    <h3><%= @b.author %></h3>
+    <p><%= @b.description %></p>
+  </div>
+</div>
+
+<div class="row">
+
+  <div class="col-md-4">
+
+
+  </div>
+
+</div>
+
+<%= link_to "Back", root_path %>
+
+
+<% if user_signed_in? %>
+
+    <% if @b.user_id == current_user.id %>
+
+        <%= link_to "Edit Book", edit_book_path(@b) %>
+        <%= link_to "Delete Book", book_path(@b), method: :delete, data: {confirm: "Are you sure"} %>
+
+    <% end %>
+
+<% end %>

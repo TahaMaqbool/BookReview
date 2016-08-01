@@ -1,0 +1,9 @@
+<%= simple_form_for @b, :html => { :multipart => true } do |f| %>
+    <%= f.file_field :book_img %>
+    <%= f.input :category_id, collection: @categories, :prompt => "Select a Category", required: true  %>
+    <%= link_to "Create New Category", new_category_path %>
+    <%= f.input :title, label:"Book Title", required: true %>
+    <%= f.input :description %>
+    <%= f.input :author, required: true %>
+    <%= f.button :submit %>
+<% end %>
