@@ -7,8 +7,8 @@ class BooksController < ApplicationController
     if params[:category].blank?
       @books = Book.all.order("created_at DESC")
     else
-      @category_id = Category.find_by(name: params[:category]).id
-      @books = Book.where(:category_id => @category_id).order("created_at Desc")
+      @books = Book.joins(:category).where(categories: {name: params[:category]}).order(created_at: :desc)
+      logger.debug "Showing all categorized books"
     end
   end
 
@@ -22,8 +22,9 @@ class BooksController < ApplicationController
 
   def create
     @b = current_user.books.build(b_params)
-    #@b.category_id = params[:category_id]
+
     if @b.save
+      flash[:success] = "Book Created Successfully!"
       redirect_to root_path
     else
       render 'new'
@@ -38,6 +39,7 @@ class BooksController < ApplicationController
   def update
     @b.category_id = params[:category_id]
     if @b.update(b_params)
+      flash[:success] = "Book Updated Successfully!"
       redirect_to book_path(@b)
     else
       render 'edit'
